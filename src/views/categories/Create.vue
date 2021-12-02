@@ -10,13 +10,18 @@
       :style="{
         maxWidth: '640px'
       }"
+      :rules="rules"
       label-placement="top"
     >
       <n-form-item label="Title" path="title">
         <n-input v-model:value="model.title" placeholder="Title"/>
       </n-form-item>
 
-      <n-form-item label="Sphere" path="sphere_id">
+      <n-form-item label="Body" path="body">
+        <n-input clearable placeholder="body" round type="textarea"/>
+      </n-form-item>
+
+      <!-- <n-form-item label="Sphere" path="sphere_id">
         <n-select
           v-model:value="model.sphere_id"
           :options="generalOptions"
@@ -65,7 +70,7 @@
           placeholder="Email"
         />
       </n-form-item>
-      <!--      <n-form-item label="Auto Complete" path="autoCompleteValue">
+           <n-form-item label="Auto Complete" path="autoCompleteValue">
               <n-auto-complete
                 v-model:value="model.autoCompleteValue"
                 :options="autoCompleteOptions"
@@ -146,7 +151,7 @@
                 :options="generalOptions"
               />
             </n-form-item>-->
-      <n-button type="primary" @click="CreatePost(model)">
+      <n-button type="primary" @click="CreatePost">
         Submit
       </n-button>
     </n-form>
@@ -184,26 +189,20 @@ function genOptions (depth = 2, iterator = 1, prefix = '') {
   }
   return options
 }
-
 export default defineComponent({
   name: 'Create',
-  methods: {
-    CreatePost (model) {
-
-    }
-  },
-  setup () {
+  setup: function () {
     const formRef = ref(null)
     const model = ref({
       title: null,
-      sphere_id: null,
+      body: null
+      /* sphere_id: null,
       meta_title: null,
       meta_description: null,
       parent_id: null,
       type: null,
       image: null,
       description: null,
-
       autoCompleteValue: '',
       dynamicTagsValue: ['teacher', 'frontend'],
       cascaderValue: null,
@@ -217,7 +216,7 @@ export default defineComponent({
       inputNumberValue: null,
       timePickerValue: null,
       sliderValue: 0,
-      transferValue: null
+      transferValue: null */
     })
     return {
       updateDisabled: ref(false),
@@ -254,7 +253,25 @@ export default defineComponent({
             value: prefix + suffix
           }
         })
-      })
+      }),
+      rules: {
+        title: {
+          required: true,
+          message: 'Please input your title',
+          trigger: 'blur'
+        }
+      },
+      CreatePost (e) {
+        e.preventDefault()
+        formRef.value.validate((errors) => {
+          if (!errors) {
+            document.querySelector('div[data-name="index"]').click()
+          } else {
+            console.log(errors)
+            console.log('Invalid')
+          }
+        })
+      }
     }
   }
 })

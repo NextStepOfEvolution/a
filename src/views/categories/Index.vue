@@ -38,17 +38,35 @@ export default defineComponent({
           key: 'actions',
           width: 20,
           fixed: 'left',
-          render (row) {
-            return h(
-              FButton,
-              {
-                size: 'small',
-                onClick: () => {
-                  console.log('asd')
+          render (row, index) {
+            return [
+              h(
+                FButton,
+                {
+                  size: 'small',
+                  type: 'primary',
+                  onClick: () => {
+                    confirm('are you shure?')
+                  }
+                },
+                { default: () => 'Edit' }
+              ),
+              h(
+                FButton,
+                {
+                  size: 'small',
+                  type: 'primary',
+                  onClick: (e) => {
+                    if (confirm('are you shure?')) {
+                      this.removeRow(row, index)
+                    }
+                  }
+                },
+                {
+                  default: () => 'Remove'
                 }
-              },
-              { default: () => 'Send Email' }
-            )
+              )
+            ]
           }
         },
         {

@@ -6,10 +6,7 @@ export default createStore({
     inverted: false,
     activeKey: null
   },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
+  mutations: {},
+  actions: {},
+  modules: {}
 })

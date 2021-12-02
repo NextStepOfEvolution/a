@@ -21,8 +21,12 @@ export default {
     return {
       tabTitleIndex: 'Категории',
       tabTitleCreate: 'Создать категорию',
-      create: ref(true)
+      create: ref(true),
+      reload: ref(false)
     }
+  },
+  methods: {
+
   },
   components: {
     Index,
