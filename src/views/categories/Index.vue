@@ -44,7 +44,8 @@ export default defineComponent({
                 FButton,
                 {
                   size: 'small',
-                  type: 'primary',
+                  type: 'warning',
+                  style: 'margin-right: 10px',
                   onClick: () => {
                     confirm('are you shure?')
                   }
@@ -55,10 +56,10 @@ export default defineComponent({
                 FButton,
                 {
                   size: 'small',
-                  type: 'primary',
+                  type: 'error',
                   onClick: (e) => {
                     if (confirm('are you shure?')) {
-                      this.removeRow(row, index)
+                      console.log('123')
                     }
                   }
                 },

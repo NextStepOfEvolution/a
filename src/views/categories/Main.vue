@@ -1,14 +1,16 @@
 <template>
-  <f-tab :tabTitleIndex="tabTitleIndex" :tabTitleCreate="tabTitleCreate" :create="create">
-    <template #index>
-      <n-message-provider>
-        <index />
-      </n-message-provider>
-    </template>
-    <template #create>
-      <create />
-    </template>
-  </f-tab>
+  <f-main>
+    <f-tab :tabTitleIndex="tabTitleIndex" :tabTitleCreate="tabTitleCreate" :create="create">
+      <template #index>
+        <n-message-provider>
+          <index />
+        </n-message-provider>
+      </template>
+      <template #create>
+        <create />
+      </template>
+    </f-tab>
+  </f-main>
 </template>
 <script>
 import Index from './Index'

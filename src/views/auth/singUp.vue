@@ -4,7 +4,7 @@ a
 
 <script>
 export default {
-  name: 'singIn'
+  name: 'singUp'
 }
 </script>
 
