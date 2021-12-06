@@ -1,11 +1,11 @@
 <template>
-  <n-data-table :columns="columns" :data="response" :pagination="pagination" :scroll-x="2000"/>
+    <n-data-table :columns="columns" :data="response" :pagination="pagination" :scroll-x="2000"/>
 </template>
 
 <script>
 import axios from 'axios'
 import { defineComponent, h } from 'vue'
-import FButton from '../../components/UI/FButton'
+import FDialog from '../../components/UI/FDialog'
 
 export default defineComponent({
   name: 'CategoryIndex',
@@ -41,30 +41,42 @@ export default defineComponent({
           render (row, index) {
             return [
               h(
-                FButton,
+                FDialog,
                 {
-                  size: 'small',
-                  type: 'warning',
-                  style: 'margin-right: 10px',
-                  onClick: () => {
-                    confirm('are you shure?')
-                  }
-                },
-                { default: () => 'Edit' }
+                  button: {
+                    size: 'small',
+                    type: 'warning',
+                    text: 'Edit'
+                  },
+                  dialog: {
+                    type: 'warning',
+                    title: 'title',
+                    content: 'content',
+                    positiveText: 'positiveText',
+                    negativeText: 'negativeText',
+                    successText: 'successText',
+                    errorText: 'errorText'
+                  },
+                  br: false
+                }
               ),
               h(
-                FButton,
+                FDialog,
                 {
-                  size: 'small',
-                  type: 'error',
-                  onClick: (e) => {
-                    if (confirm('are you shure?')) {
-                      console.log('123')
-                    }
+                  button: {
+                    size: 'small',
+                    type: 'error',
+                    text: 'Remove'
+                  },
+                  dialog: {
+                    type: 'error',
+                    title: 'title',
+                    content: 'content',
+                    positiveText: 'positiveText',
+                    negativeText: 'negativeText',
+                    successText: 'successText',
+                    errorText: 'errorText'
                   }
-                },
-                {
-                  default: () => 'Remove'
                 }
               )
             ]

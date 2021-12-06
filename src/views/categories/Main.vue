@@ -2,9 +2,7 @@
   <f-main>
     <f-tab :tabTitleIndex="tabTitleIndex" :tabTitleCreate="tabTitleCreate" :create="create">
       <template #index>
-        <n-message-provider>
           <index />
-        </n-message-provider>
       </template>
       <template #create>
         <create />

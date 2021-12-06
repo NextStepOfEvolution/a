@@ -2,26 +2,22 @@
   <n-loading-bar-provider>
     <n-message-provider>
       <n-dialog-provider>
-        <router-view></router-view>
+        <slot></slot>
       </n-dialog-provider>
     </n-message-provider>
   </n-loading-bar-provider>
 </template>
 
 <script>
-
+import { defineComponent } from 'vue'
 import { NDialogProvider, NLoadingBarProvider, NMessageProvider } from 'naive-ui'
 
-export default {
-  name: 'App',
+export default defineComponent({
+  name: 'AppProvider',
   components: {
     NMessageProvider,
     NLoadingBarProvider,
     NDialogProvider
   }
-}
+})
 </script>
-
-<style>
-
-</style>

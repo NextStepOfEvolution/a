@@ -6,7 +6,11 @@ export default createStore({
     collapsed: ref(true),
     inverted: ref(false),
     activeKey: ref(null),
-    user: ref({})
+    user: ref({}),
+    errorsApi: {
+      status: ref(400),
+      message: ref(null)
+    }
   },
   mutations: {},
   actions: {},

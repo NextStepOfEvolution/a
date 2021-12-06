@@ -2,9 +2,7 @@
   <f-main>
     <f-tab>
       <template #one>
-        <n-message-provider>
           <f-table :tabTitleOne="tabTitleOne"/>
-        </n-message-provider>
       </template>
       <template #two>
       </template>
