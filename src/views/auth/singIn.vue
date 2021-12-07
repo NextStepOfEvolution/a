@@ -5,7 +5,7 @@
         src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-2/img/login-v2.72cd8a26.svg"></n-image>
     </n-gi>
     <n-gi offset="1">
-      <n-card class="signInCard" title="Too Simple">
+      <n-card class="signInCard" title="Auth">
         <n-tabs default-value="signin" justify-content="space-evenly" size="large">
           <n-tab-pane name="signin" tab="Sign in">
             <n-form
@@ -32,20 +32,9 @@
               </n-form-item-row>
             </n-form>
             <f-button :type="type" @click="signInSubmit">sign In</f-button>
-          </n-tab-pane>
-          <n-tab-pane name="signup" tab="Sign Up">
-            <n-form>
-              <n-form-item-row label="Password">
-                <n-input placeholder="Enter password"/>
-              </n-form-item-row>
-              <n-form-item-row label="Password">
-                <n-input/>
-              </n-form-item-row>
-              <n-form-item-row label="Reenter Password">
-                <n-input/>
-              </n-form-item-row>
-            </n-form>
-            <f-button :type="type">sign Up</f-button>
+            <n-alert v-if="$store.state.errorsApi.message" style="margin-top: 5px" type="error">
+              {{ $store.state.errorsApi.message }}
+            </n-alert>
           </n-tab-pane>
         </n-tabs>
       </n-card>
@@ -57,21 +46,23 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { Login, Logout } from '../../utils'
 
 export default {
   name: 'signIn',
   mounted () {
-    this.$store.state.user = {}
-    sessionStorage.setItem('user', JSON.stringify({}))
+    if (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).jwt) {
+      Logout(this)
+    }
     //  if (this.$store.state.user.jwt) {
     //   this.$router.push({ name: 'CategoriesMain' })
     // }
   },
-  setup () {
-    const { state } = useStore()
-    const { push } = useRouter()
+  setup (_, context) {
     const formSignIn = ref(null)
     // const formSignUp = ref(null)
+    const store = useStore()
+    const router = useRouter()
     const signInModel = ref({
       signInEmail: '',
       signInPassword: null
@@ -116,13 +107,10 @@ export default {
         e.preventDefault()
         formSignIn.value.validate((errors) => {
           if (!errors) {
-            state.user = {
-              id: '1',
-              email: 'example@gmail.com',
-              jwt: '123123123123'
-            }
-            sessionStorage.setItem('user', JSON.stringify(state.user))
-            push({ name: 'CategoriesMain' })
+            /* process.env.DEV_URL + */
+            Login(store, router, null, signInModel.value.signInEmail, signInModel.value.signInPassword)
+            /* const result = Login('login', signInModel.value.signInEmail, signInModel.value.signInPassword)
+            console.log(result) */
           }
         })
       }

@@ -67,7 +67,7 @@ export default defineComponent({
                 { default: () => "Edit" }
               ),
               h(
-                FButton,
+                FDialog,
                 {
                   size: "small",
                   type: "error",

@@ -10,7 +10,11 @@ export default createStore({
     language: ref({
       locale: 'RU',
       translates: [],
-    })
+    }),
+    errorsApi: {
+      status: ref(400),
+      message: ref(null)
+    }
   },
   mutations: {},
   actions: {},

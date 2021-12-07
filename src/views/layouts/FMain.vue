@@ -33,16 +33,16 @@
         </n-layout-sider>
         <!--Vertical Menu end -->
         <!--Content -->
-        <n-layout style="padding: 20px">
+        <n-layout-content style="padding: 20px">
           <slot></slot>
-        </n-layout>
+        </n-layout-content>
         <!--Content end-->
+        <!--Footer -->
+        <n-layout-footer :inverted="$store.state.inverted" bordered>
+          <h4>Copyright © 2021 <span style="color: teal">PSP MARKET</span></h4>
+        </n-layout-footer>
+        <!--Footer end-->
       </n-layout>
-      <!--Footer -->
-      <n-layout-footer :inverted="$store.state.inverted" bordered>
-        Footerello
-      </n-layout-footer>
-      <!--Footer end-->
     </n-layout>
   </n-space>
 </template>
@@ -60,7 +60,6 @@ export default {
     FNavBar,
     Navbar,
   },
-  mounted() {
     // const user = JSON.parse(sessionStorage.getItem('user'))
     // if (!user.jwt) {
     //   this.$router.push({ name: 'SignIn' })
@@ -68,10 +67,3 @@ export default {
     //   this.$store.state.user = user
     // }
   },
-  setup() {
-    return {
-      menu,
-    };
-  },
-};
-</script>
