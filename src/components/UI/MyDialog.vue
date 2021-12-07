@@ -1,4 +1,5 @@
 <template>
+  <n-button type="primary" @click="openDialog">Edit</n-button>
   <div v-if="show" class="dialog" @click.stop="hideDialog">
     <div class="dialog__content" @click.stop>
       <slot></slot>
@@ -7,15 +8,29 @@
 </template>
 
 <script>
-import toggleMixin from '../../mixins/index'
+import toggleMixin from "../../mixins/index";
+import { useDialog } from "naive-ui";
 
 export default {
-  name: 'my-dialog',
+  name: "my-dialog",
   mixins: [toggleMixin],
-  mounted () {
-    console.log('dialog mounted')
+  mounted() {
+    console.log("dialog mounted");
+  },
+  setup() {
+    const dialog = useDialog();
+    return {
+      warning() {
+        dialog.warning(options);
+      },
+    };
+  },
+  methods: {
+    openDialog(){
+
+    }
   }
-}
+};
 </script>
 
 <style scoped>

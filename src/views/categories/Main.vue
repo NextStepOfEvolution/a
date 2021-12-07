@@ -1,5 +1,6 @@
 <template>
   <f-main>
+    <n-dialog-provider>
     <f-tab :tabTitleIndex="tabTitleIndex" :tabTitleCreate="tabTitleCreate" :create="create">
       <template #index>
         <n-message-provider>
@@ -10,6 +11,7 @@
         <create />
       </template>
     </f-tab>
+    </n-dialog-provider>
   </f-main>
 </template>
 <script>

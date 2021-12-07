@@ -13,9 +13,7 @@
     <!--Change theme end-->
     <n-layout>
       <!--Header-->
-      <n-layout-header :inverted="$store.state.inverted" bordered>
-        <f-nav-bar :navbarOptions="navbar"/>
-      </n-layout-header>
+      <Navbar />
       <!--Header end-->
       <n-layout has-sider>
         <!--Vertical Menu -->
@@ -27,11 +25,11 @@
           :width="240"
           bordered
           collapse-mode="width"
-          style="max-height: 100%; cursor: pointer;"
+          style="max-height: 100%; cursor: pointer"
           @collapse="$store.state.collapsed = true"
           @expand="$store.state.collapsed = false"
         >
-          <f-menu :menuOptions="menu"/>
+          <f-menu :menuOptions="menu" />
         </n-layout-sider>
         <!--Vertical Menu end -->
         <!--Content -->
@@ -50,30 +48,30 @@
 </template>
 
 <script>
-import FNavBar from '../../components/Layout/Header/FNavBar'
-import FMenu from '../../components/Layout/Header/FMenu'
-import navbar from '../../datas/navbar'
-import menu from '../../datas/menu'
+import FNavBar from "../../components/Layout/Header/FNavBar";
+import FMenu from "../../components/Layout/Header/FMenu";
+import menu from "../../datas/menu";
+import Navbar from "../../components/UI/Navbar/Navbar";
 
 export default {
-  name: 'FMain',
+  name: "FMain",
   components: {
     FMenu,
-    FNavBar
+    FNavBar,
+    Navbar,
   },
-  mounted () {
-    const user = JSON.parse(sessionStorage.getItem('user'))
-    if (!user.jwt) {
-      this.$router.push({ name: 'SignIn' })
-    } else {
-      this.$store.state.user = user
-    }
+  mounted() {
+    // const user = JSON.parse(sessionStorage.getItem('user'))
+    // if (!user.jwt) {
+    //   this.$router.push({ name: 'SignIn' })
+    // } else {
+    //   this.$store.state.user = user
+    // }
   },
-  setup () {
+  setup() {
     return {
       menu,
-      navbar
-    }
-  }
-}
+    };
+  },
+};
 </script>

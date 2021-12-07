@@ -6,7 +6,11 @@ export default createStore({
     collapsed: ref(true),
     inverted: ref(false),
     activeKey: ref(null),
-    user: ref({})
+    user: ref({}),
+    language: ref({
+      locale: 'RU',
+      translates: [],
+    })
   },
   mutations: {},
   actions: {},
