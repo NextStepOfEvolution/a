@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import components from './components/index'
 import naive from 'naive-ui'
+import axios from 'axios'
 
 const app = createApp(App)
 
@@ -17,3 +18,23 @@ app
   .use(store)
   .use(router)
   .mount('#app')
+
+axios.interceptors.response.use(
+  function (request) {
+    store.state.tableData = []
+    store.state.pageSize = {}
+    return request
+  },
+
+  function (response) {
+    return response
+  },
+  function (error) {
+    if (error.response.status === 401) {
+      localStorage.removeItem('user')
+      store.state.user = {}
+      router.push({ name: 'SignIn' })
+    }
+    throw new Error('Invalid token detected')
+  }
+)

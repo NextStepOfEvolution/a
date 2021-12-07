@@ -1,10 +1,4 @@
 <template>
-  <img
-    :class="{ menuImageActive: !$store.state.collapsed }"
-    alt="asdas"
-    class="menuImage"
-    src="src/assets/psp-logo.png"
-  >
   <n-menu
     v-model:value="$store.state.activeKey"
     :collapsed="$store.state.collapsed"
@@ -12,8 +6,8 @@
     :collapsed-width="64"
     :inverted="$store.state.inverted"
     :options="menuOptions"
-    @mouseleave="$store.state.collapsed = true"
     @mouseover="$store.state.collapsed = false"
+    @mouseleave="$store.state.collapsed = true"
   />
 </template>
 
@@ -26,22 +20,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  data () {
-    return {}
   }
 }
 </script>
-
-<style scoped>
-.menuImage {
-  max-width: 36px;
-  margin: 10px 0 0 14px;
-  transition: 0.3s;
-}
-
-.menuImageActive {
-  margin-left: 25px;
-  transition: 0.3s;
-}
-</style>

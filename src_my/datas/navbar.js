@@ -20,6 +20,7 @@ export default [
       { default: () => 'Просмотр сайта' }
     ),
     key: 'market.psp.uz',
+    title: 'asd',
     icon: renderIcon(ArrowRedo)
   },
   {

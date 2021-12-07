@@ -39,13 +39,13 @@
           <slot></slot>
         </n-layout-content>
         <!--Content end-->
-        <!--Footer -->
-        <n-layout-footer :inverted="$store.state.inverted" bordered>
-          <h4>Copyright © 2021 <span style="color: teal">PSP MARKET</span></h4>
-        </n-layout-footer>
-        <!--Footer end-->
       </n-layout>
     </n-layout>
+    <!--Footer -->
+    <n-layout-footer :inverted="$store.state.inverted" bordered>
+      <h4>Copyright © 2021 <span style="color: teal">PSP MARKET</span></h4>
+    </n-layout-footer>
+    <!--Footer end-->
   </n-space>
 </template>
 

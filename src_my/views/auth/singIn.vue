@@ -5,7 +5,7 @@
         src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-2/img/login-v2.72cd8a26.svg"></n-image>
     </n-gi>
     <n-gi offset="1">
-      <n-card class="signInCard" title="Auth">
+      <n-card class="signInCard" title="Too Simple">
         <n-tabs default-value="signin" justify-content="space-evenly" size="large">
           <n-tab-pane name="signin" tab="Sign in">
             <n-form
@@ -32,9 +32,20 @@
               </n-form-item-row>
             </n-form>
             <f-button :type="type" @click="signInSubmit">sign In</f-button>
-            <n-alert v-if="$store.state.errorsApi.message" style="margin-top: 5px" type="error">
-              {{ $store.state.errorsApi.message }}
-            </n-alert>
+          </n-tab-pane>
+          <n-tab-pane name="signup" tab="Sign Up">
+            <n-form>
+              <n-form-item-row label="Password">
+                <n-input placeholder="Enter password"/>
+              </n-form-item-row>
+              <n-form-item-row label="Password">
+                <n-input/>
+              </n-form-item-row>
+              <n-form-item-row label="Reenter Password">
+                <n-input/>
+              </n-form-item-row>
+            </n-form>
+            <f-button :type="type">sign Up</f-button>
           </n-tab-pane>
         </n-tabs>
       </n-card>
@@ -46,23 +57,21 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import AuthAPI from '../../services/auth'
 
 export default {
   name: 'signIn',
   mounted () {
-    if (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).jwt) {
-      AuthAPI.logout(this)
-    }
-    if (this.$store.state.user.jwt) {
-      this.$router.push({ name: 'CategoriesMain' })
-    }
+    this.$store.state.user = {}
+    sessionStorage.setItem('user', JSON.stringify({}))
+    //  if (this.$store.state.user.jwt) {
+    //   this.$router.push({ name: 'CategoriesMain' })
+    // }
   },
-  setup (_, context) {
+  setup () {
+    const { state } = useStore()
+    const { push } = useRouter()
     const formSignIn = ref(null)
     // const formSignUp = ref(null)
-    const store = useStore()
-    const router = useRouter()
     const signInModel = ref({
       signInEmail: '',
       signInPassword: null
@@ -89,11 +98,10 @@ export default {
       signUp
     }
     return {
-      formSignIn,
-      signInModel,
-      signInRules: signInVal,
       type: 'primary',
       updateDisabled: ref(false),
+      formSignIn,
+      signInModel,
       signAutocomplete: computed(() => {
         return ['@gmail.com', '@mail.ru', '@yandex.ru', '@yandex.com', '@yahoo.com'].map((suffix) => {
           const prefix = signInModel.value.signInEmail.split('@')[0]
@@ -103,34 +111,18 @@ export default {
           }
         })
       }),
+      signInRules: signInVal,
       signInSubmit (e) {
         e.preventDefault()
         formSignIn.value.validate((errors) => {
           if (!errors) {
-            /* process.env.DEV_URL + */
-            AuthAPI.login(store, router, null, signInModel.value.signInEmail, signInModel.value.signInPassword)
-              .then((response) => {
-                switch (response.status) {
-                  case 400:
-                    store.state.errorsApi.message = response.data.message
-                    break
-                  case 200:
-                    store.state.user = response.data.user
-                    localStorage.setItem('user', JSON.stringify(response.data.user))
-                    store.state.errorsApi.message = null
-                    if (response.data.user.id !== '') {
-                      router.push({ name: 'CategoriesMain' })
-                    } else {
-                      store.state.errorsApi.message = 'Что-то пошло не так попробуйте позже'
-                    }
-                    break
-                  default:
-                    store.state.errorsApi.message = 'Что-то пошло не так попробуйте позже'
-                    break
-                }
-              })
-            /* const result = Login('login', signInModel.value.signInEmail, signInModel.value.signInPassword)
-            console.log(result) */
+            state.user = {
+              id: '1',
+              email: 'example@gmail.com',
+              jwt: '123123123123'
+            }
+            sessionStorage.setItem('user', JSON.stringify(state.user))
+            push({ name: 'CategoriesMain' })
           }
         })
       }
