@@ -27,14 +27,10 @@ axios.interceptors.response.use(
   },
 
   function (response) {
-    return response
-  },
-  function (error) {
-    if (error.response.status === 401) {
+    if (response.response.status === 401) {
       localStorage.removeItem('user')
       store.state.user = {}
       router.push({ name: 'SignIn' })
     }
-    throw new Error('Invalid token detected')
-  }
-)
+    return Promise.reject(response)
+  })

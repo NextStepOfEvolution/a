@@ -7,10 +7,10 @@
       :inverted="$store.state.inverted"
       :label-width="160"
       :model="model"
+      :rules="rules"
       :style="{
         maxWidth: '640px'
       }"
-      :rules="rules"
       label-placement="top"
     >
       <n-form-item label="Title" path="title">
@@ -18,143 +18,54 @@
       </n-form-item>
 
       <n-form-item label="Description" path="description">
-        <n-input clearable placeholder="description" round type="textarea"/>
+        <n-input v-model:value="model.description" clearable placeholder="description" round type="textarea"/>
       </n-form-item>
 
-      <n-form-item label="Description" path="description">
-        <n-select clearable placeholder="description" round type="textarea"/>
-      </n-form-item>
-
-      <!-- <n-form-item label="Sphere" path="sphere_id">
+      <n-form-item label="Spheres" path="sphere_id">
         <n-select
+          :options="spheres"
           v-model:value="model.sphere_id"
-          :options="generalOptions"
-          placeholder="Sphere"
-        />
+          clearable
+          filterable
+          placeholder="sphere"
+          round/>
       </n-form-item>
 
       <n-form-item label="Meta Title" path="meta_title">
         <n-input v-model:value="model.meta_title" placeholder="Meta Title"/>
       </n-form-item>
 
-      <n-form-item label="Meta Description" path="meta_description">
-        <n-input clearable placeholder="Meta Description" round/>
+      <n-form-item label="Meta Description" path="meta_desc">
+        <n-input v-model:value="model.meta_desc" clearable placeholder="Meta Description" round type="textarea"/>
       </n-form-item>
 
-      <n-form-item label="Parent" path="parent_id">
+      <n-form-item label="Parents" path="parent_id">
         <n-select
           v-model:value="model.parent_id"
-          :options="generalOptions"
-          placeholder="Parent"
+          :options="parents"
+          clearable
+          filterable
+          placeholder="parent"
+          round
         />
       </n-form-item>
 
       <n-form-item label="Type" path="type">
         <n-select
           v-model:value="model.type"
-          :options="generalOptions"
-          placeholder="Type"
+          :options="types"
+          clearable
+          filterable
+          placeholder="type"
+          round
         />
       </n-form-item>
 
       <n-form-item label="Image" path="image">
-        <n-upload accept=".png, .jpg, .jpeg">
+        <n-upload accept=".png, .jpg, .jpeg" @change="uploadImage($event)" @remove="removeImage">
           <n-button>Upload file</n-button>
         </n-upload>
       </n-form-item>
-
-      <n-form-item label="Description" path="description">
-        <n-input clearable placeholder="Description" round type="textarea"/>
-      </n-form-item>
-
-      <n-form-item label="Description" path="description">
-        <n-auto-complete
-          v-model:value="model.autoCompleteValue"
-          :options="autoCompleteOptions"
-          placeholder="Email"
-        />
-      </n-form-item>
-           <n-form-item label="Auto Complete" path="autoCompleteValue">
-              <n-auto-complete
-                v-model:value="model.autoCompleteValue"
-                :options="autoCompleteOptions"
-                placeholder="Email"
-              />
-            </n-form-item>
-            <n-form-item label="Dynamic Tags" path="dynamicTagsValue">
-              <n-dynamic-tags :value="model.dynamicTagsValue"/>
-            </n-form-item>
-            <n-form-item label="Tree Select" path="treeSelectValue">
-              <n-tree-select
-                :options="treeSelectOptions"
-                default-value="Drive My Car"
-              />
-            </n-form-item>
-            <n-form-item label="Cascader" path="cascaderValue">
-              <n-cascader
-                :leaf-only="false"
-                :options="options"
-                :value="model.cascaderValue"
-                placeholder="Cascader"
-                size="medium"
-              />
-            </n-form-item>
-            <n-form-item label="Datetime" path="datetimeValue">
-              <n-date-picker v-model:value="model.datetimeValue" type="datetime"/>
-            </n-form-item>
-            <n-form-item label="Switch" path="switchValue">
-              <n-switch v-model:value="model.switchValue"/>
-            </n-form-item>
-            <n-form-item label="Checkbox" path="checkboxValue">
-              <n-checkbox v-model:checked="model.checkboxValue">Checkbox</n-checkbox>
-            </n-form-item>
-            <n-form-item label="Checkbox Group" path="checkboxGroupValue">
-              <n-checkbox-group v-model:value="model.checkboxGroupValue">
-                <n-space>
-                  <n-checkbox value="Option 1">Option 1</n-checkbox>
-                  <n-checkbox value="Option 2">Option 2</n-checkbox>
-                  <n-checkbox value="Option 3">Option 3</n-checkbox>
-                </n-space>
-              </n-checkbox-group>
-            </n-form-item>
-            <n-form-item label="Radio" path="radioValue">
-              <n-radio
-                :checked="model.radioValue === 'Definitely Maybe'"
-                name="basic-demo"
-                value="Definitely Maybe"
-              >
-                Definitely Maybe
-              </n-radio>
-            </n-form-item>
-            <n-form-item label="Radio Group" path="radioGroupValue">
-              <n-radio-group v-model:value="model.radioGroupValue" name="radiogroup2">
-                <n-radio value="Radio 1">Radio 1</n-radio>
-                <n-radio value="Radio 2">Radio 2</n-radio>
-                <n-radio value="Radio 3">Radio 3</n-radio>
-              </n-radio-group>
-            </n-form-item>
-            <n-form-item label="Radio Button Group" path="radioGroupValue">
-              <n-radio-group v-model:value="model.radioGroupValue" name="radiogroup2">
-                <n-radio-button value="Radio 1">Radio 1</n-radio-button>
-                <n-radio-button value="Radio 2">Radio 2</n-radio-button>
-                <n-radio-button value="Radio 3">Radio 3</n-radio-button>
-              </n-radio-group>
-            </n-form-item>
-            <n-form-item label="Input Number" path="inputNumberValue">
-              <n-input-number v-model:value="model.inputNumberValue"/>
-            </n-form-item>
-            <n-form-item label="Time Picker" path="timePickerValue">
-              <n-time-picker v-model:value="model.timePickerValue"/>
-            </n-form-item>
-            <n-form-item label="Slider" path="sliderValue">
-              <n-slider v-model:value="model.sliderValue" :step="5"/>
-            </n-form-item>
-            <n-form-item label="Transfer" path="transferValue">
-              <n-transfer
-                v-model:value="model.transferValue"
-                :options="generalOptions"
-              />
-            </n-form-item>-->
       <n-button type="primary" @click="CreatePost">
         Submit
       </n-button>
@@ -163,35 +74,67 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import CreatesAPI from '../../services/creates'
+import { useMessage } from 'naive-ui'
+// import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'Create',
+  name: 'CategoriesCreate',
   setup: function () {
+    const message = useMessage()
     const formRef = ref(null)
+    // const router = useRouter()
     const model = ref({
       title: null,
       description: null,
-      autoCompleteValue: ''
+      sphere_id: null,
+      meta_title: null,
+      meta_desc: null,
+      parent_id: null,
+      type: null,
+      image: null
     })
     return {
+      spheres: [
+        {
+          label: 'Drive My Car',
+          value: 1
+        }
+      ],
+      parents: [
+        {
+          label: 'Drive My Car',
+          value: 1
+        }
+      ],
+      types: [
+        {
+          label: 'Norwegian Wood',
+          value: 1
+        }
+      ],
       updateDisabled: ref(false),
       formRef,
+      uploadImage (e) {
+        model.value.image = e.file.file
+      },
+      removeImage () {
+        model.value.image = null
+      },
       model,
-      autoCompleteOptions: computed(() => {
-        return ['@gmail.com', '@163.com', '@qq.com'].map((suffix) => {
-          const prefix = model.value.autoCompleteValue.split('@')[0]
-          return {
-            label: prefix + suffix,
-            value: prefix + suffix
-          }
-        })
-      }),
       rules: {
         title: {
           required: true,
-          message: 'Please input your title',
+          message: 'Please input title',
+          trigger: 'blur'
+        },
+        meta_desc: {
+          required: false
+        },
+        description: {
+          required: true,
+          message: 'Please input description',
           trigger: 'blur'
         }
       },
@@ -199,13 +142,36 @@ export default defineComponent({
         e.preventDefault()
         formRef.value.validate((errors) => {
           if (!errors) {
-            CreatesAPI.create('http://127.0.0.1:8000/api/categories', model.value).then((response) => {
-              console.log(response)
-            })
-            // document.querySelector('div[data-name="index"]').click()
-          } else {
-            console.log(errors)
-            console.log('Invalid')
+            const formData = new FormData()
+            formData.append('title', model.value.title)
+            formData.append('description', model.value.description)
+            formData.append('sphere_id', model.value.sphere_id)
+            formData.append('meta_title', model.value.meta_title)
+            formData.append('meta_desc', model.value.meta_desc)
+            formData.append('parent_id', model.value.parent_id)
+            formData.append('type', model.value.type)
+            formData.append('image', model.value.image)
+            CreatesAPI.create('http://127.0.0.1:8000/api/categories', formData)
+              .then((response) => {
+                switch (response.status) {
+                  case 400:
+                  case 422:
+                    for (let i = 0; i <= Object.keys(model.value).length; i++) {
+                      const check = response.data.errors[Object.keys(model.value)[i]]
+                      if (check !== undefined) {
+                        message.error(check[0])
+                      }
+                    }
+                    break
+                  case 200:
+                    document.querySelector('div[data-name="index"]').click()
+                    // router.push({ name: 'CategoriesMain' })
+                    break
+                  default:
+                    message.error('Что-то пошло не так попробуйте позже')
+                    break
+                }
+              })
           }
         })
       }

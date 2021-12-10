@@ -1,47 +1,37 @@
 <template>
   <n-data-table :columns="columns" :data="response" :pagination="pagination" :scroll-x="500"/>
-  <n-pagination
-    v-model:page="page1"
-    v-model:page-size="pageSize1"
-    :page-count="50"
-  />
 </template>
 
 <script>
-import { defineComponent, h, ref } from 'vue'
+import { defineComponent, h, reactive, ref } from 'vue'
 import FDialog from '../../components/UI/FDialog'
 import IndexApi from '../../services/indexes'
+import { useMessage } from 'naive-ui'
+import CategoriesEdit from './Edit'
 
 export default defineComponent({
   name: 'CategoryIndex',
   methods: {},
   setup () {
-    const data = ref([])
+    const message = useMessage()
+    const data = reactive([])
     const checkedRowKeysRef = ref([])
-    let paginationReactive = ref({})
-    IndexApi.Index('http://127.0.0.1:8000/api/categories').then((categories) => {
+    const paginationReactive = ref({})
+    IndexApi.index('http://127.0.0.1:8000/api/categories', 1).then((categories) => {
       for (let i = 0; i < categories.data.length; i++) {
-        data.value[i] = Object.assign({}, categories.data[i], { key: i })
+        data[i] = Object.assign({}, categories.data[i], { key: i })
       }
-      paginationReactive = ref({
+      paginationReactive.value = {
         page: categories.current_page,
         pageSize: categories.per_page,
-        showSizePicker: true,
-        pageSizes: [10, categories.total],
-        pageCount: 100,
-        itemCount: 100,
-        endIndex: 100,
+        pageCount: categories.total,
         onChange: (page) => {
           paginationReactive.value.page = page
-        },
-        onPageSizeChange: (pageSize) => {
-          paginationReactive.value.pageSize = pageSize
-          paginationReactive.value.page = 1
         }
-      })
+      }
     })
     return {
-      response: data.value,
+      response: data,
       checkedRowKeys: checkedRowKeysRef,
       columns: [
         {
@@ -49,7 +39,7 @@ export default defineComponent({
           key: 'actions',
           width: 200,
           fixed: 'left',
-          render (row, index) {
+          render: function (row, index) {
             return [
               h(
                 FDialog,
@@ -61,12 +51,13 @@ export default defineComponent({
                   },
                   dialog: {
                     type: 'warning',
-                    title: 'title',
-                    content: 'content',
-                    positiveText: 'positiveText',
-                    negativeText: 'negativeText',
-                    successText: 'successText',
-                    errorText: 'errorText'
+                    title: 'Изменить ' + row.title,
+                    content: h(
+                      CategoriesEdit,
+                      {
+                        row
+                      }
+                    )
                   },
                   br: false
                 }
@@ -81,12 +72,18 @@ export default defineComponent({
                   },
                   dialog: {
                     type: 'error',
-                    title: 'title',
-                    content: 'content',
-                    positiveText: 'positiveText',
-                    negativeText: 'negativeText',
-                    successText: 'successText',
-                    errorText: 'errorText'
+                    title: 'Удалить',
+                    content: 'Вы уверены что хотите удалить "' + row.title + '" ?',
+                    positiveText: 'Да',
+                    errorText: 'errorText',
+                    onPositiveClick: function () {
+                      IndexApi.remove('http://127.0.0.1:8000/api/categories/' + row.id).then(() => {
+                        message.info('Категория ' + row.title + ' удалена')
+                        data.splice(row, 1)
+                      }, () => {
+                        message.info('Не удалось удалить категорию ' + row.title)
+                      })
+                    }
                   }
                 }
               )
@@ -173,18 +170,7 @@ export default defineComponent({
           width: 100
         }
       ],
-      pageCount1: 100,
-      pageSize1: 10,
-      page1: ref(2),
-      pagination: {
-        page: 1,
-        pageSize: 10,
-        showSizePicker: true,
-        pageSizes: [10, 20, 30, 40, 50],
-        pageCount: 100,
-        itemCount: 100,
-        endIndex: 100
-      }
+      pagination: paginationReactive
     }
   }
 })

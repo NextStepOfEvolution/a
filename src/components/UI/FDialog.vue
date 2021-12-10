@@ -1,12 +1,13 @@
 <template>
-  <n-button :size="button.size" :type="button.type" style="margin-right: 10px" @click="handleConfirm">{{ button.text }}
+  <n-button :size="button.size" :type="button.type" style="margin-right: 10px;" @click="handleConfirm">
+    {{ button.text }}
   </n-button>
   <br v-if="br">
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import { useDialog, useMessage } from 'naive-ui'
+import { useDialog } from 'naive-ui'
 
 export default defineComponent({
   props: {
@@ -32,7 +33,13 @@ export default defineComponent({
           positiveText: 'positiveText',
           negativeText: 'negativeText',
           successText: 'successText',
-          errorText: 'errorText'
+          errorText: 'errorText',
+          onPositiveClick: () => {
+            console.log('onPositiveClick')
+          },
+          onNegativeClick: () => {
+            console.log('onNegativeClick')
+          }
         }
       }
     },
@@ -42,7 +49,6 @@ export default defineComponent({
     }
   },
   setup (props, context) {
-    const message = useMessage()
     const dialog = useDialog()
     return {
       handleConfirm () {
@@ -50,35 +56,33 @@ export default defineComponent({
           case 'warning':
             dialog.warning({
               title: props.dialog.title,
-              content: props.dialog.content,
+              content: () => {
+                return <span style="font-weight:bold"> {props.dialog.content} </span>
+              },
               positiveText: props.dialog.positiveText,
               negativeText: props.dialog.negativeText,
-              onPositiveClick: () => {
-                message.success(props.dialog.successText)
-              },
-              onNegativeClick: () => {
-                message.error(props.dialog.errorText)
-              }
+              onPositiveClick: props.dialog.onPositiveClick,
+              onNegativeClick: props.dialog.onNegativeClick
             })
             break
           case 'success':
             dialog.success({
               title: props.dialog.title,
-              content: props.dialog.content,
+              content: () => {
+                return <span style="font-weight:bold"> {props.dialog.content} </span>
+              },
               positiveText: props.dialog.positiveText,
-              onPositiveClick: () => {
-                message.success(props.dialog.successText)
-              }
+              onPositiveClick: props.dialog.onPositiveClick
             })
             break
           case 'error':
             dialog.error({
               title: props.dialog.title,
-              content: props.dialog.content,
+              content: () => {
+                return <span style="font-weight:bold"> {props.dialog.content} </span>
+              },
               positiveText: props.dialog.positiveText,
-              onPositiveClick: () => {
-                message.error(props.dialog.errorText)
-              }
+              onPositiveClick: props.dialog.onPositiveClick
             })
             break
         }
